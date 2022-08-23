@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const url = 'mongodb://localhost:27017/e-comm';
+const mongodb = require('mongodb');
+
+
 
 const saveinDB = async()=>{
     await mongoose.connect(url);
@@ -35,4 +38,24 @@ const updateinDB =async()=>{
     console.log(data);
 };
 
-updateinDB();
+// updateinDB();
+
+const deleteinDB = async()=>{
+    await mongoose.connect(url);
+    const ProductSchema = new mongoose.Schema({
+        
+        name:String,
+        price:Number,
+        brand:String,
+        category:String
+    });
+
+    const ProductsModel = mongoose.model('products',ProductSchema);
+    let data = await ProductsModel.deleteOne({name:"m8"});
+    if(data.acknowledged){
+        console.log("Document is deleted successfully");
+    }
+    
+}
+
+deleteinDB();
