@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const url = 'mongodb://localhost:27017/e-comm';
 
-const main = async()=>{
+const saveinDB = async()=>{
     await mongoose.connect(url);
     const ProductSchema = new mongoose.Schema({
         name:String,
@@ -15,5 +15,24 @@ const main = async()=>{
     let result = await data.save();
     console.log(result);
 }
+// saveinDB();
 
-main();
+
+const updateinDB =async()=>{
+    await mongoose.connect(url);
+    const ProductSchema = new mongoose.Schema({
+        name:String,
+        price:Number,
+        brand:String,
+        category:String,
+    });
+    const ProductsModel = mongoose.model('products',ProductSchema);
+    let data = await ProductsModel.updateOne({name:"m 10"},
+    {$set:{name:"m45",price:700}});
+    if(data.acknowledged){
+        console.log("Hurray")
+    }
+    console.log(data);
+};
+
+updateinDB();
