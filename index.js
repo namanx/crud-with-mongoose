@@ -3,15 +3,20 @@ const url = 'mongodb://localhost:27017/e-comm';
 const mongodb = require('mongodb');
 
 
+// connecting node with mongodb using mongoose ...
 
-const saveinDB = async()=>{
-    await mongoose.connect(url);
+
+// Schema Validation  ...
     const ProductSchema = new mongoose.Schema({
         name:String,
         price:Number,
         brand:String,
         category:String,
     });
+
+
+const saveinDB = async()=>{
+    await mongoose.connect(url);
 
     const ProductsModel = mongoose.model('products',ProductSchema);
     let data = new ProductsModel({name:"m 10",price:1000});
@@ -23,12 +28,6 @@ const saveinDB = async()=>{
 
 const updateinDB =async()=>{
     await mongoose.connect(url);
-    const ProductSchema = new mongoose.Schema({
-        name:String,
-        price:Number,
-        brand:String,
-        category:String,
-    });
     const ProductsModel = mongoose.model('products',ProductSchema);
     let data = await ProductsModel.updateOne({name:"m 10"},
     {$set:{name:"m45",price:700}});
@@ -41,15 +40,8 @@ const updateinDB =async()=>{
 // updateinDB();
 
 const deleteinDB = async()=>{
+    
     await mongoose.connect(url);
-    const ProductSchema = new mongoose.Schema({
-        
-        name:String,
-        price:Number,
-        brand:String,
-        category:String
-    });
-
     const ProductsModel = mongoose.model('products',ProductSchema);
     let data = await ProductsModel.deleteOne({name:"m8"});
     if(data.acknowledged){
@@ -58,4 +50,14 @@ const deleteinDB = async()=>{
     
 }
 
-deleteinDB();
+// deleteinDB();
+
+const FindinDB = async()=>{
+    await mongoose.connect(url);
+    const ProductsModel = mongoose.model('products',ProductSchema);
+    const data = await ProductsModel.find({category:"Mobile"});
+    
+    console.log(data);
+}
+
+FindinDB();
